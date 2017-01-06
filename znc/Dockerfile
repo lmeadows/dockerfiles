@@ -5,4 +5,4 @@ RUN apk add --no-cache znc
 
 USER znc
 VOLUME ["/home/znc/.znc"]
-CMD ["znc"]
+CMD ["znc", "--foreground"]
