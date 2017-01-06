@@ -16,4 +16,5 @@ RUN apk add --no-cache --update bitlbee json-glib libgcrypt \
 
 EXPOSE 6667
 
+VOLUME /var/lib/bitlbee
 ENTRYPOINT [ "/usr/sbin/bitlbee", "-F", "-n" ]
