@@ -5,10 +5,6 @@ RUN apk add --no-cache \
         openssh rsync vim python3 python \
         weechat weechat-perl weechat-python
 
-# wemux
-RUN wget https://raw.githubusercontent.com/zolrath/wemux/master/wemux -O /usr/local/bin/wemux \
-    && chmod +x /usr/local/bin/wemux
-
 # ssh
 RUN mkdir /root/.ssh \
     && wget -O /root/.ssh/authorized_keys https://github.com/chauffer.keys \
