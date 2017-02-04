@@ -1,10 +1,10 @@
 FROM buildpack-deps:jessie-curl
 MAINTAINER Simone <chaufnet@gmail.com>
 
-ENV OAUTH2_PROXY_VERSION=2.1
-ENV GOLANG_VERSION=1.6
-ENV ARCHIVE=oauth2_proxy-$OAUTH2_PROXY_VERSION.linux-amd64.go$GOLANG_VERSION
-ENV PATH /opt/oauth2-proxy/bin:$PATH
+ENV OAUTH2_PROXY_VERSION=2.1 \
+    GOLANG_VERSION=1.6 \
+    ARCHIVE=oauth2_proxy-$OAUTH2_PROXY_VERSION.linux-amd64.go$GOLANG_VERSION \
+    PATH /opt/oauth2-proxy/bin:$PATH
 
 RUN mkdir -p /opt/oauth2-proxy/bin && mkdir /opt/oauth2-proxy/etc && \
     curl -L -k --silent \
