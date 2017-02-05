@@ -1,0 +1,34 @@
+{
+  "configRev": 5,
+  "timeOffset": {{ .Env.LETHE_TIME_OFFSET }},
+  "maxLength": {{ .Env.LETHE_MAX_LENGTH }},
+  "userQueueLimit": {{ .Env.LETHE_USER_QUEUE_LIMIT }},
+  "playbackNetworkMessage": true,
+  "shouldUsePMs": false,
+  "botHasNickname": false,
+  "checksEnabled": {
+    "checkDuplicateVideo": false,
+    "checkDuplicateUser": false,
+    "checkVideoLength": false
+  },
+  "adminIds": [
+    {{ .Env.LETHE_DISCORD_ADMIN_ARRAY }}
+  ],
+  "commandsRestrictedToAdmins": {
+    "init": true,
+    "info": false,
+    "help": false,
+    "destroy": true,
+    "yt": false,
+    "list": false,
+    "list saved": false,
+    "link": false,
+    "next": true,
+    "replay": false,
+    "save": false,
+    "time": false,
+    "yq": false,
+    "pl": false,
+    "shuffle": true
+  }
+}
