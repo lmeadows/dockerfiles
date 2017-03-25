@@ -1,10 +1,9 @@
 # nginx-301-https
 
 ### Image
-- Source `nginx:alpine`
+- Source `chauffer/nginx-for-rancher`
 - Linked (trigger build when the image changes)
-    - `alpine`
-    - `nginx`
+    - `chauffer/nginx-for-rancher`
 
 ### Environment variables
 None

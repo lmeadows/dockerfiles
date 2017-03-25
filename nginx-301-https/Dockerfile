@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM chauffer/nginx-for-rancher
 MAINTAINER Simone Esposito <chaufnet@gmail.com>
 
 RUN echo 'server { \
