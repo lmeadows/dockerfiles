@@ -1,8 +1,8 @@
 FROM buildpack-deps:jessie-curl
 MAINTAINER Simone <chaufnet@gmail.com>
 
-ENV OAUTH2_PROXY_VERSION=2.1 \
-    GOLANG_VERSION=1.6 \
+ENV OAUTH2_PROXY_VERSION=2.2 \
+    GOLANG_VERSION=1.8.1 \
     ARCHIVE=oauth2_proxy-$OAUTH2_PROXY_VERSION.linux-amd64.go$GOLANG_VERSION \
     PATH /opt/oauth2-proxy/bin:$PATH
 
