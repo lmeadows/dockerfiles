@@ -4,8 +4,6 @@
    - [GitHub](https://github.com/chauffer/dockerfiles/tree/master/bitlbee-steam), [Docker Hub](https://hub.docker.com/r/chauffer/bitlbee-steam/)
 - `cypress-cli`
    - [GitHub](https://github.com/chauffer/dockerfiles/tree/master/cypress-cli), [Docker Hub](https://hub.docker.com/r/chauffer/cypress-cli/)
-- `datadog-apm`
-   - [GitHub](https://github.com/chauffer/dockerfiles/tree/master/datadog-apm), [Docker Hub](https://hub.docker.com/r/chauffer/datadog-apm/)
 - `nginx-301-https`
    - [GitHub](https://github.com/chauffer/dockerfiles/tree/master/nginx-301-https), [Docker Hub](https://hub.docker.com/r/chauffer/nginx-301-https/)
 - `nginx-autoindex`
