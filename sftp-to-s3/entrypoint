@@ -27,7 +27,8 @@ mkdir -p /home/$FTP_USER
 chown root:root /home/$FTP_USER
 chmod 744 /home/$FTP_USER
 
-s3fs $S3_BUCKET /home/$FTP_USER  -o nosuid,nonempty,nodev,allow_other,retries=5
+mkdir -p /home/$FTP_USER/s3
+s3fs $S3_BUCKET /home/$FTP_USER/s3  -o nosuid,nonempty,nodev,allow_other,retries=5
 
 echo "PasswordAuthentication yes
 AllowUsers $FTP_USER
