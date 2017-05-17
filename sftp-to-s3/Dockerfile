@@ -1,18 +1,18 @@
 FROM alpine:3.5
 
-ARG S3FS_VERSION=v1.79
+ARG S3FS_VERSION=v1.82
 
 MAINTAINER Simone Esposito <chaufnet@gmail.com>
 
 COPY entrypoint /
 
-RUN apk add --no-cache openssh openssh-sftp-server dropbear &&\
+RUN apk add --no-cache openssh openssh-sftp-server &&\
 	rm -rf /var/cache/apk/* &&\
-	mkdir /etc/dropbear &&\
 	touch /var/log/lastlog	&&\
+    mkdir -p /keys &&\
 	chmod +x /entrypoint
 
-RUN apk --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash &&\
+RUN apk --no-cache add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev curl git bash &&\
     git clone https://github.com/s3fs-fuse/s3fs-fuse.git /tmp/s3fs &&\
     cd /tmp/s3fs &&\
     git checkout tags/${S3FS_VERSION} &&\
@@ -26,4 +26,4 @@ VOLUME /etc/ssh
 EXPOSE 22
 
 ENTRYPOINT ["/entrypoint"]
-CMD ["dropbear", "-RFEmwg", "-p", "22"]
+CMD ["/usr/sbin/sshd", "-D", "-f", "/etc/ssh/sshd_config"]

@@ -1,32 +1,53 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+set -o errexit
+set -o errtrace
+
+if [ "x$FTP_USER" == "x" ]
+then
+  echo Please set \$FTP_USER
+  exit 1
+fi
+
+if [ "x$FTP_PASS" == "x" ]
+then
+  echo Please set \$FTP_PASS
+  exit 1
+fi
+
 
 echo "Creating user ${FTP_USER}"
 adduser -D ${FTP_USER}
 echo "${FTP_USER}:${FTP_PASS}" | chpasswd
 
-echo $AWS_ACCESS_KEY:$AWS_SECRET_KEY > /s3credentials
-chmod 600 /s3credentials
+export AWSACCESSKEYID=$AWS_ACCESS_KEY
+export AWSSECRETACCESSKEY=$AWS_SECRET_KEY
 
 mkdir -p /home/$FTP_USER
 chown root:root /home/$FTP_USER
 chmod 744 /home/$FTP_USER
 
-s3fs $S3_BUCKET /home/$FTP_USER \
-  -o use_sse \
-  -o passwd_file=/s3credentials \
-  -o nonempty \
-  -o allow_other \
-  -o url=https://s3.amazonaws.com \
-  -o uid=$(id -u $FTP_USER)
+s3fs $S3_BUCKET /home/$FTP_USER  -o nosuid,nonempty,nodev,allow_other,retries=5
 
 echo "PasswordAuthentication yes
+AllowUsers $FTP_USER
+AuthorizedKeysFile /keys/$FTP_USER
+UseDNS no
 Subsystem sftp internal-sftp
 Match User $FTP_USER
 ChrootDirectory /home/$FTP_USER
 ForceCommand internal-sftp
 AllowTCPForwarding no
 X11Forwarding no" > /etc/ssh/sshd_config
+
+if [ "x$FTP_PUBLIC_KEY" != "x" ]
+then
+  mkdir -p /keys
+  echo $FTP_PUBLIC_KEY > /keys/$FTP_USER
+  chown $FTP_USER:$FTP_USER /keys/$FTP_USER
+  chmod 0444 /keys/$FTP_USER
+fi
+
 
 if [ ! -f /etc/ssh/ssh_host_rsa_key ]
 then
