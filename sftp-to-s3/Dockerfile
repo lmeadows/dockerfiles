@@ -2,7 +2,7 @@ FROM alpine:3.5
 
 ARG S3FS_VERSION=v1.82
 
-MAINTAINER Simone Esposito <chaufnet@gmail.com>
+MAINTAINER Lucas Meadows <meadows.lucas@gmail.com>
 
 COPY entrypoint /
 

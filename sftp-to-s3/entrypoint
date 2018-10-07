@@ -3,52 +3,52 @@ set -euo pipefail
 set -o errexit
 set -o errtrace
 
-if [ "x$FTP_USER" == "x" ]
+if [ "x$SFTP_USER" == "x" ]
 then
-  echo Please set \$FTP_USER
+  echo Please set \$SFTP_USER
   exit 1
 fi
 
-if [ "x$FTP_PASS" == "x" ]
+if [ "x$SFTP_PASS" == "x" ]
 then
-  echo Please set \$FTP_PASS
+  echo Please set \$SFTP_PASS
   exit 1
 fi
 
 
-echo "Creating user ${FTP_USER}"
-adduser -D ${FTP_USER}
-echo "${FTP_USER}:${FTP_PASS}" | chpasswd
+echo "Creating user ${SFTP_USER}"
+adduser -D ${SFTP_USER}
+echo "${SFTP_USER}:${SFTP_PASS}" | chpasswd
 
 export AWSACCESSKEYID=$AWS_ACCESS_KEY
 export AWSSECRETACCESSKEY=$AWS_SECRET_KEY
 
-mkdir -p /home/$FTP_USER
-chown root:root /home/$FTP_USER
-chmod 745 /home/$FTP_USER
+mkdir -p /home/$SFTP_USER
+chown root:root /home/$SFTP_USER
+chmod 745 /home/$SFTP_USER
 
-mkdir -p /home/$FTP_USER/s3
-s3fs $S3_BUCKET /home/$FTP_USER/s3  -o nosuid,nonempty,nodev,allow_other,retries=5
+mkdir -p /home/$SFTP_USER/s3
+s3fs $S3_BUCKET /home/$SFTP_USER/s3  -o nosuid,nonempty,nodev,allow_other,retries=5
 
 echo "StrictModes no
 PasswordAuthentication yes
-AllowUsers $FTP_USER
-AuthorizedKeysFile /keys/$FTP_USER
+AllowUsers $SFTP_USER
+AuthorizedKeysFile /keys/$SFTP_USER
 UseDNS no
 Subsystem sftp internal-sftp
-Match User $FTP_USER
-ChrootDirectory /home/$FTP_USER
+Match User $SFTP_USER
+ChrootDirectory /home/$SFTP_USER
 ForceCommand internal-sftp
 AllowTCPForwarding no
 X11Forwarding no
 " > /etc/ssh/sshd_config
 
-if [ "x$FTP_PUBLIC_KEY" != "x" ]
+if [ "x$SFTP_PUBLIC_KEY" != "x" ]
 then
   mkdir -p /keys
-  echo $FTP_PUBLIC_KEY > /keys/$FTP_USER
-  chown $FTP_USER:$FTP_USER /keys/$FTP_USER
-  chmod 0444 /keys/$FTP_USER
+  echo $SFTP_PUBLIC_KEY > /keys/$SFTP_USER
+  chown $SFTP_USER:$SFTP_USER /keys/$SFTP_USER
+  chmod 0444 /keys/$SFTP_USER
 fi
 
 
@@ -60,7 +60,7 @@ then
     ssh-keygen -t ed25519 -N '' -f /etc/ssh/ssh_host_ed25519_key || true
 fi
 
-echo "SFTP credentials: $FTP_USER:$FTP_PASS"
+echo "SFTP credentials: $SFTP_USER:$SFTP_PASS"
 echo "S3 Bucket: $S3_BUCKET"
 echo "Ready to accept connections..."
 exec $@
